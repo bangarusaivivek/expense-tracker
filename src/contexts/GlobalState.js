@@ -17,31 +17,40 @@ export class GlobalProvider extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            transactions : [
-                { id: 1, text: 'Flower', amount: -20},
-                { id: 2, text: 'Salary', amount: 300},
-                { id: 3, text: 'Book', amount: -10},
-                { id: 4, text: 'Camera', amount: 150},
-            ]
+            transactions : [],
         }
         this.deleteTransaction = this.deleteTransaction.bind(this);
         this.addTransaction = this.addTransaction.bind(this);
     }
 
+    componentDidMount(){
+        this.setState({
+            transactions : JSON.parse(localStorage.getItem("transactions")) || [] ,
+        })
+    }
+
     deleteTransaction(id){
         const {transactions} = this.state;
         const newTransactions = transactions.filter(transaction => transaction.id !== id);
-        this.setState({
-            transactions : newTransactions,
+        this.setState(() => {
+            localStorage.setItem("transactions",JSON.stringify(newTransactions))
+            return {
+                transactions : newTransactions,
+            }
         })
     }
     addTransaction(transaction){
-        
-        this.setState({
-            transactions : [...this.state.transactions,transaction],
+        const newTransactions = [...this.state.transactions,transaction];
+        this.setState(() => {
+            localStorage.setItem("transactions",JSON.stringify(newTransactions))
+            return {
+                transactions : newTransactions ,
+            }
         })
         
     }
+
+
     
     render() {
         return (
