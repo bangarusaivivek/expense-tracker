@@ -2,13 +2,14 @@ import React,{ useContext } from 'react'
 import { GlobalContext } from '../contexts/GlobalState'
 
 function TransactionList() {
-    const {transactions} = useContext(GlobalContext);
+    const {transactions,deleteTransaction} = useContext(GlobalContext);
     const transactionJSX = transactions.map((transaction) => {
         const sign = transaction.amount < 0 ? '-' : '+';
         const colorClass = transaction.amount < 0 ? 'minus' : 'plus';
         return(
             <li key={transaction.id}  className={colorClass}>
-                {transaction.text} <span>{sign}${Math.abs(transaction.amount)}</span><button className="delete-btn">x</button>
+                {transaction.text} <span>{sign}${Math.abs(transaction.amount)}</span>
+                <button className="delete-btn" onClick={(e) => deleteTransaction(transaction.id)}>x</button>
             </li>
         )
     })
