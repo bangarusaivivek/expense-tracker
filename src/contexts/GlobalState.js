@@ -24,13 +24,21 @@ export class GlobalProvider extends Component {
                 { id: 4, text: 'Camera', amount: 150},
             ]
         }
+        this.deleteTransaction = this.deleteTransaction.bind(this);
+    }
 
+    deleteTransaction(id){
+        const {transactions} = this.state;
+        const newTransactions = transactions.filter(transaction => transaction.id !== id);
+        this.setState({
+            transactions : newTransactions,
+        })
     }
     
     
     render() {
         return (
-            <GlobalContext.Provider value={this.state}>
+            <GlobalContext.Provider value={{...this.state,deleteTransaction:this.deleteTransaction}}>
                 {this.props.children}
             </GlobalContext.Provider>
         )
