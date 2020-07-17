@@ -25,6 +25,7 @@ export class GlobalProvider extends Component {
             ]
         }
         this.deleteTransaction = this.deleteTransaction.bind(this);
+        this.addTransaction = this.addTransaction.bind(this);
     }
 
     deleteTransaction(id){
@@ -34,11 +35,17 @@ export class GlobalProvider extends Component {
             transactions : newTransactions,
         })
     }
-    
+    addTransaction(transaction){
+        
+        this.setState({
+            transactions : [...this.state.transactions,transaction],
+        })
+        
+    }
     
     render() {
         return (
-            <GlobalContext.Provider value={{...this.state,deleteTransaction:this.deleteTransaction}}>
+            <GlobalContext.Provider value={{...this.state,deleteTransaction:this.deleteTransaction,addTransaction:this.addTransaction}}>
                 {this.props.children}
             </GlobalContext.Provider>
         )
